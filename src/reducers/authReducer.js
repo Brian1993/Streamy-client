@@ -2,7 +2,8 @@ import { createSwitch } from '../utils'
 import ACTION_TYPES from '../actions/actionTypes'
 
 const INITAIL_STATE = {
-  isSignedIn: null
+  isSignedIn: null,
+  userId: null
 }
 
 const switchAction = createSwitch({
@@ -14,10 +15,10 @@ export default (state = INITAIL_STATE, action) => {
   return switchAction(state, action)
 }
 
-function signIn (state) {
-  return { ...state, isSignedIn: true }
+function signIn (state, { payload: userId }) {
+  return { ...state, isSignedIn: true, userId: userId }
 }
 
 function signOut (state) {
-  return { ...state, isSignedIn: false }
+  return { ...state, isSignedIn: false, userId: null }
 }
