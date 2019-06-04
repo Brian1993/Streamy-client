@@ -12,9 +12,6 @@ const Header = () => {
             <Link to='/' className='btn btn-outline-success'>Home</Link>
           </li>
           <li className='nav-item'>
-            <a className='nav-link' href='#'>Features</a>
-          </li>
-          <li className='nav-item'>
             <GoogleAuth />
           </li>
         </ul>
