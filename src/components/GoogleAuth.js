@@ -1,13 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { signIn, signOut } from '../actions'
 
 class GoogleAuth extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      isSignedIn: null
-    }
-  }
-
   componentDidMount () {
     window.gapi.load('client:auth2', () => {
       window.gapi.client.init({
@@ -15,25 +10,29 @@ class GoogleAuth extends React.Component {
         scope: 'email'
       }).then(() => {
         this.auth = window.gapi.auth2.getAuthInstance()
-        this.setState({ isSignedIn: this.auth.isSignedIn.get() })
+        this.onAuthChange(this.auth.isSignedIn.get())
         this.auth.isSignedIn.listen(this.onAuthChange)
       })
     })
   }
 
-  onAuthChange = () => this.setState({ isSignedIn: this.auth.isSignedIn.get() })
+  onAuthChange = isSignedIn => {
+    const { signIn, signOut } = this.props
+    isSignedIn ? signIn() : signOut()
+  }
 
-  onSignIn = () => this.auth.signIn()
+  onSignInClick = () => this.auth.signIn()
   
 
-  onSignOut = () => this.auth.signOut()
+  onSignOutClick = () => this.auth.signOut()
 
   renderAuthBttton () {
-    return this.state.isSignedIn === null 
+    const { isSignedIn } = this.props
+    return isSignedIn === null 
       ? null
-      : this.state.isSignedIn
-        ? <button onClick={this.onSignOut} className='btn btn-danger'><i className="fab fa-google"></i>&nbsp;&nbsp;&nbsp;Sign out</button>
-        :  <button onClick={this.onSignIn} className='btn btn-primary'><i className="fab fa-google"></i>&nbsp;&nbsp;&nbsp;Sign in with google</button>
+      : isSignedIn
+        ? <button onClick={this.onSignOutClick} className='btn btn-danger'><i className="fab fa-google"></i>&nbsp;&nbsp;&nbsp;Sign out</button>
+        :  <button onClick={this.onSignInClick} className='btn btn-primary'><i className="fab fa-google"></i>&nbsp;&nbsp;&nbsp;Sign in with google</button>
   }
 
   render () {
@@ -41,4 +40,14 @@ class GoogleAuth extends React.Component {
   }
 }
 
-export default GoogleAuth
+function selector (state) {
+  return {
+    isSignedIn: state.auth.isSignedIn
+  }
+}
+
+const actions = {
+  signIn,
+  signOut
+}
+export default connect(selector, actions)(GoogleAuth)
