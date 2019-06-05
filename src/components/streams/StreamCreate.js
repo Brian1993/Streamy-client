@@ -2,17 +2,20 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 
 class StreamCreate extends Component {
-  renderInput ({ input, label }) {
+  renderInput = ({ input, label, meta }) => {
+    const { error, touched } = meta
+    const className = touched && error ? 'form-control is-invalid' : 'form-control'
     return (
       <div className='form-group'>
         <label htmlFor='exampleInputEmail1'>{label}</label>
-        <input {...input} className='form-control' />
+        <input {...input} className={className} />
+        <small className='invalid-feedback'>{error}</small>
       </div>
     )
   }
 
-  onSubmit (formValue) {
-    console.log(formValue)
+  onSubmit (formValues) {
+    console.log(formValues)
   }
 
   render () {
@@ -26,6 +29,15 @@ class StreamCreate extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'streamCreate'
-})(StreamCreate)
+const validate = (formValues) => {
+  const errors = {}
+  if (!formValues.title) errors.title = 'You must enter a title'
+  if (!formValues.description) errors.description = 'You must enter a description'
+  return errors
+}
+
+const streamCreateform = {
+  form: 'streamCreate',
+  validate
+}
+export default reduxForm(streamCreateform)(StreamCreate)
