@@ -12,3 +12,10 @@ export const signOut = () => {
     type: ACTION_TYPES.SIGN_OUT
   }
 }
+
+export const createStram = data => {
+  return {
+    type: ACTION_TYPES.CREATE_STREAM,
+    payload: data
+  }
+}

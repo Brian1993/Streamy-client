@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
+import { createStreamThunk } from '../../actions/thunk'
 
 class StreamCreate extends Component {
   renderInput = ({ input, label, meta }) => {
@@ -14,8 +16,8 @@ class StreamCreate extends Component {
     )
   }
 
-  onSubmit (formValues) {
-    console.log(formValues)
+  onSubmit = (formValues) => {
+    this.props.createStream(formValues)
   }
 
   render () {
@@ -40,4 +42,10 @@ const streamCreateform = {
   form: 'streamCreate',
   validate
 }
-export default reduxForm(streamCreateform)(StreamCreate)
+
+const formWrapped = reduxForm(streamCreateform)(StreamCreate)
+
+const actions = {
+  createStreamThunk
+}
+export default connect(null, actions)(formWrapped)
