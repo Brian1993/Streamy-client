@@ -1,7 +1,58 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
-const StreamList = () => {
-  return <div>StreamList</div>
+import { fetchStreamsThunk } from '../../actions/thunk'
+
+const iconStyle = {
+  fontSize: '40px',
+  margin: 'auto'
+}
+class StreamList extends Component {
+  componentDidMount () {
+    this.props.fetchStreamsThunk()
+  }
+
+  renderList () {
+    const { streams } = this.props
+    return _.map(streams, stream => (
+      <li className='list-group-item' key={stream.id}>
+        <div className='row'>
+          <div className='col-sm-1'>
+            <div className='align-middle'>
+              <i className='fas fa-camera ' style={iconStyle} />
+            </div>
+          </div>
+          <div className='col-sm-5'>
+            <h5 className='card-title'>{stream.title}</h5>
+            <p className='card-text'>{stream.description}</p>
+          </div>
+        </div>
+
+      </li>
+
+    ))
+  }
+
+  render () {
+    return (
+      <div>
+        <h1>StreamList</h1>
+        <ul className='list-group'>
+          {this.renderList()}
+        </ul>
+      </div>
+    )
+  }
 }
 
-export default StreamList;
+function selector (state) {
+  return {
+    streams: Object.values(state.streams)
+  }
+}
+const actions = {
+  fetchStreamsThunk
+}
+
+export default connect(selector, actions)(StreamList)
