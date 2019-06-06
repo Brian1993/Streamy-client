@@ -1,8 +1,9 @@
 import streams from '../apis/streams'
 import { createStram, setStreams, setStream, editStreamSuccessed, deleteStreamSuccessed } from './index'
 
-export const createStreamThunk = formValues => async dispatch => {
-  const { data } = await streams.post('/streams', formValues)
+export const createStreamThunk = formValues => async (dispatch, getState) => {
+  const { userId } = getState().auth
+  const { data } = await streams.post('/streams', { ...formValues, userId })
   dispatch(createStram(data))
 }
 

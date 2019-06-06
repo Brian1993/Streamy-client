@@ -13,6 +13,19 @@ class StreamList extends Component {
     this.props.fetchStreamsThunk()
   }
 
+  renderAdmin = (stream) => {
+   return stream.userId === this.props.currentUserId
+      ? (
+          <div className='col-sm-6 '>
+            <div className='float-right'>
+              <button className='btn btn-info'>EDIT</button>
+              <button className='ml-2 btn btn-danger'>danger</button>
+            </div>
+          </div>
+        )
+      : null
+  }
+
   renderList () {
     const { streams } = this.props
     return _.map(streams, stream => (
@@ -27,10 +40,9 @@ class StreamList extends Component {
             <h5 className='card-title'>{stream.title}</h5>
             <p className='card-text'>{stream.description}</p>
           </div>
+          {this.renderAdmin(stream)}
         </div>
-
       </li>
-
     ))
   }
 
@@ -48,7 +60,8 @@ class StreamList extends Component {
 
 function selector (state) {
   return {
-    streams: Object.values(state.streams)
+    streams: Object.values(state.streams),
+    currentUserId: state.auth.userId
   }
 }
 const actions = {

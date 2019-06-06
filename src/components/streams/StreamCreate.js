@@ -17,7 +17,7 @@ class StreamCreate extends Component {
   }
 
   onSubmit = (formValues) => {
-    this.props.createStream(formValues)
+    this.props.createStreamThunk(formValues)
   }
 
   render () {
