@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 import { fetchStreamsThunk } from '../../actions/thunk'
@@ -17,9 +18,9 @@ class StreamList extends Component {
    return stream.userId === this.props.currentUserId
       ? (
           <div className='col-sm-6 '>
-            <div className='float-right'>
+            <div className='float-right align-middle'> 
               <button className='btn btn-info'>EDIT</button>
-              <button className='ml-2 btn btn-danger'>danger</button>
+              <button className='ml-2 btn btn-danger'>Delete</button>
             </div>
           </div>
         )
@@ -33,7 +34,7 @@ class StreamList extends Component {
         <div className='row'>
           <div className='col-sm-1'>
             <div className='align-middle'>
-              <i className='fas fa-camera ' style={iconStyle} />
+              <i className='fas fa-camera' style={iconStyle} />
             </div>
           </div>
           <div className='col-sm-5'>
@@ -45,7 +46,17 @@ class StreamList extends Component {
       </li>
     ))
   }
-
+  
+  renderCreate () {
+    return this.props.isSignedIn 
+      ? <div className='row'>
+          <div className='col-9'/>
+          <div className='col-3'>
+            <Link to='/streams/new' className='btn btn-primary mt-3 float-right'>Create Stream</Link>
+          </div>
+        </div>
+      : null
+  }
   render () {
     return (
       <div>
@@ -53,6 +64,7 @@ class StreamList extends Component {
         <ul className='list-group'>
           {this.renderList()}
         </ul>
+        {this.renderCreate()}
       </div>
     )
   }
@@ -61,7 +73,8 @@ class StreamList extends Component {
 function selector (state) {
   return {
     streams: Object.values(state.streams),
-    currentUserId: state.auth.userId
+    currentUserId: state.auth.userId,
+    isSignedIn: state.auth.isSignedIn
   }
 }
 const actions = {

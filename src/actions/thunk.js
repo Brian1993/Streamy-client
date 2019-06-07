@@ -1,10 +1,13 @@
 import streams from '../apis/streams'
-import { createStram, setStreams, setStream, editStreamSuccessed, deleteStreamSuccessed } from './index'
+import { createStream, setStreams, setStream, editStreamSuccessed, deleteStreamSuccessed } from './index'
 
 export const createStreamThunk = formValues => async (dispatch, getState) => {
   const { userId } = getState().auth
   const { data } = await streams.post('/streams', { ...formValues, userId })
-  dispatch(createStram(data))
+  dispatch(createStream(data))
+
+  // Do programmatic navigation to get
+  // the use back to the root route
 }
 
 export const fetchStreamsThunk = () => async dispatch => {

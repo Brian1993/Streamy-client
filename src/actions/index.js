@@ -13,7 +13,7 @@ export const signOut = () => {
   }
 }
 
-export const createStram = data => {
+export const createStream = data => {
   return {
     type: ACTION_TYPES.CREATE_STREAM,
     payload: data
