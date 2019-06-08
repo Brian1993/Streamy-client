@@ -26,7 +26,23 @@ export const fetchStreamThunk = (id) => async dispatch => {
 }
 
 export const editStreamThunk = (id, formValue) => async dispatch => {
-  const { data } = await streams.put(`/streams/${id}`, formValue)
+  // put could override the object if we only update some of properties of a object
+  /**
+   * ex: user = {
+   *  id: 4,
+   *  userId: 'A123456789',
+   *  title: 'This is a title',
+   *  description: 'This is a description'
+   * }
+   * If we only want to update title and description, so we "PUT" only the id, title, description the api
+   * responseUser = {
+   *  id: 4,
+   *  title: 'modified title',
+   *  description: 'This is a description'
+   * }
+   * The userId gets deleted
+   */
+  const { data } = await streams.patch(`/streams/${id}`, formValue)
   dispatch(editStreamSuccessed(data))
   history.push('/')
 }
