@@ -15,12 +15,13 @@ class StreamList extends Component {
   }
 
   renderAdmin = (stream) => {
+    const { id } = stream 
    return stream.userId === this.props.currentUserId
       ? (
           <div className='col-sm-6 '>
-            <div className='float-right align-middle'> 
-              <button className='btn btn-info'>EDIT</button>
-              <button className='ml-2 btn btn-danger'>Delete</button>
+            <div className='float-right align-middle'>
+              <Link to={`/streams/edit/${id}`} className='btn btn-info'>EDIT</Link>
+              <Link to={`/streams/edit/${id}`}className='ml-2 btn btn-danger'>Delete</Link>
             </div>
           </div>
         )
