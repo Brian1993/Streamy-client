@@ -5,10 +5,6 @@ import _ from 'lodash'
 
 import { fetchStreamsThunk } from '../../actions/thunk'
 
-const iconStyle = {
-  fontSize: '40px',
-  margin: 'auto'
-}
 class StreamList extends Component {
   componentDidMount () {
     this.props.fetchStreamsThunk()
@@ -20,8 +16,18 @@ class StreamList extends Component {
       ? (
           <div className='col-sm-6 '>
             <div className='float-right align-middle'>
-              <Link to={`/streams/edit/${id}`} className='btn btn-info'>EDIT</Link>
-              <Link to={`/streams/delete/${id}`}className='ml-2 btn btn-danger'>Delete</Link>
+              <Link 
+                to={`/streams/edit/${id}`} 
+                className='btn btn-info'
+              >
+                EDIT
+              </Link>
+              <Link 
+                to={`/streams/delete/${id}`}
+                className='ml-2 btn btn-danger'
+              >
+                Delete
+              </Link>
             </div>
           </div>
         )
@@ -30,6 +36,10 @@ class StreamList extends Component {
 
   renderList () {
     const { streams } = this.props
+    const iconStyle = {
+      fontSize: '40px',
+      margin: 'auto'
+    }
     return _.map(streams, stream => (
       <li className='list-group-item' key={stream.id}>
         <div className='row'>
@@ -39,7 +49,9 @@ class StreamList extends Component {
             </div>
           </div>
           <div className='col-sm-5'>
-            <h5 className='card-title'>{stream.title}</h5>
+            <h5>
+              <Link to={`/streams/${stream.id}`} className='card-title'>{stream.title}</Link>
+            </h5>
             <p className='card-text'>{stream.description}</p>
           </div>
           {this.renderAdmin(stream)}

@@ -50,4 +50,5 @@ export const editStreamThunk = (id, formValue) => async dispatch => {
 export const deleteStreamThunk = (id) => async dispatch => {
   await streams.delete(`/streams/${id}`)
   dispatch(deleteStreamSuccessed(id))
+  history.push('/')
 }
