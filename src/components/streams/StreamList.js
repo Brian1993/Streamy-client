@@ -21,7 +21,7 @@ class StreamList extends Component {
           <div className='col-sm-6 '>
             <div className='float-right align-middle'>
               <Link to={`/streams/edit/${id}`} className='btn btn-info'>EDIT</Link>
-              <Link to={`/streams/edit/${id}`}className='ml-2 btn btn-danger'>Delete</Link>
+              <Link to={`/streams/delete/${id}`}className='ml-2 btn btn-danger'>Delete</Link>
             </div>
           </div>
         )
